@@ -208,7 +208,7 @@ MIT License - You can use, modify, and distribute this project freely!
 
 ## 👨‍💻 Author
 
-**Ravish Kumar**
+**Ravish Bisht**
 - GitHub: [@cykoravish](https://github.com/cykoravish)
 
 ## 🙏 Acknowledgments

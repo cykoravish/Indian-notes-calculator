@@ -1,24 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Tailwind v4 Project</title>
+    <title>Indian Notes Calculator</title>
     <link href="./src/output.css" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+
 </head>
-<body>
-    <div class="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">Hello Tailwind v4!</h1>
-            <p class="text-gray-600">Your project is ready to go!</p>
-            <button class="mt-4 bg-blue-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
-                Click mee baby
-            </button>
+
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <!-- Header Section -->
+    <header class="bg-white shadow-lg border-b border-gray-100">
+        <div class="max-w-4xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="text-3xl">💰</div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Indian Notes Calculator</h1>
+                        <p class="text-sm text-gray-600">Break down any amount into currency notes</p>
+                    </div>
+                </div>
+                <div class="hidden sm:flex items-center space-x-2 text-green-600">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm font-medium">Free & Secure</span>
+                </div>
+            </div>
         </div>
-        <div class="text-blue-500 text-3xl">
-            hey dude what is up
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-6 py-8">
+        <!-- Input Section -->
+        <section class="bg-white rounded-xl shadow-lg p-8 mb-8 border border-gray-100">
+            <div class="text-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Enter Amount</h2>
+                <p class="text-gray-600">Enter the amount you want to break down into notes</p>
+            </div>
+
+            <div class="max-w-md mx-auto">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <span class="text-gray-500 text-lg font-medium">₹</span>
+                    </div>
+                    <input type="number" id="amountInput"
+                        class="w-full pl-8 pr-4 py-4 text-xl font-semibold text-center border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
+                        placeholder="0" min="1" max="999999999" autocomplete="off">
+                </div>
+                <div class="mt-4 flex space-x-3">
+                    <button id="calculateBtn"
+                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02]">
+                        Calculate Notes
+                    </button>
+                    <button id="clearBtn"
+                        class="px-6 py-3 text-gray-600 hover:text-gray-800 border-2 border-gray-200 hover:border-gray-300 rounded-lg transition-all duration-200">
+                        Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Amount Buttons -->
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600 mb-3">Quick amounts:</p>
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button
+                        class="quick-amount px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+                        data-amount="100">₹100</button>
+                    <button
+                        class="quick-amount px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+                        data-amount="500">₹500</button>
+                    <button
+                        class="quick-amount px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+                        data-amount="1000">₹1,000</button>
+                    <button
+                        class="quick-amount px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+                        data-amount="2500">₹2,500</button>
+                    <button
+                        class="quick-amount px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+                        data-amount="5000">₹5,000</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="hidden">
+            <!-- Summary Card -->
+            <div class="bg-gradient-to-r from-green-500 to-blue-600 rounded-xl shadow-lg p-6 mb-6 text-white">
+                <div class="text-center">
+                    <h3 class="text-lg font-medium mb-2">Breakdown Summary</h3>
+                    <div class="text-3xl font-bold mb-1">
+                        ₹<span id="totalAmount">0</span>
+                    </div>
+                    <p class="text-green-100">
+                        <span id="totalNotes">0</span> notes required
+                    </p>
+                </div>
+            </div>
+
+            <!-- Notes Breakdown -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-100">
+                <div class="p-6 border-b border-gray-100">
+                    <h3 class="text-xl font-semibold text-gray-800 text-center">Notes Breakdown</h3>
+                    <p class="text-gray-600 text-center text-sm mt-1">Minimum notes required</p>
+                </div>
+                <div id="notesBreakdown" class="p-6">
+                    <!-- Notes will be populated here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div class="flex items-center">
+                <svg class="w-5 h-5 text-red-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                <p class="text-red-800 font-medium" id="errorText"></p>
+            </div>
         </div>
-    </div>
-    <script src="script.js"></script>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-16 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-4xl mx-auto px-6 py-8">
+            <div class="text-center">
+                <p class="text-gray-600 mb-2">Made with ❤️ for the Indian community</p>
+                <div class="flex justify-center space-x-6 text-sm text-gray-500">
+                    <span>Fast & Accurate</span>
+                    <span>•</span>
+                    <span>No Data Stored</span>
+                    <span>•</span>
+                    <span>100% Free</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
 </body>
+
 </html>
