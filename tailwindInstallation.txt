@@ -1,0 +1,164 @@
+Complete Tailwind CSS v4.0 Setup Guide - 2025
+Using Tailwind CSS v4.0 (Latest - Recommended)
+
+Step 1: Initialize Your Project
+mkdir my-tailwind-project
+cd my-tailwind-project
+npm init -y
+
+Step 2: Install Tailwind CSS v4.0
+npm install tailwindcss @tailwindcss/cli
+
+Step 3: Create Your CSS File
+Create src/input.css with just one line:
+@import "tailwindcss";
+
+Step 4: Build Your CSS
+npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch
+
+Step 5: Create Your HTML
+Create index.html:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tailwind v4 Project</title>
+    <link href="./src/output.css" rel="stylesheet">
+</head>
+<body>
+    <div class="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">Hello Tailwind v4!</h1>
+            <p class="text-gray-600">Your project is ready to go!</p>
+            <button class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Click me
+            </button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+Step 6: Add Build Scripts to package.json
+
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./src/output.css --minify",
+    "watch": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+    "dev": "tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+  }
+
+Project Structure for v4.0
+my-tailwind-project/
+├── src/
+│   ├── input.css          (just: @import "tailwindcss";)
+│   └── output.css         (generated)
+├── index.html
+├── script.js
+├── package.json
+└── .gitignore
+
+------------------------------------------------------------------------
+
+Development Workflow
+
+Start Development:
+npm run watch
+
+
+Build for Production:
+npm run build
+
+
+Custom Configuration (Optional)
+If you need custom configuration, add it directly in your CSS:
+
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Inter", "system-ui", "sans-serif";
+  --color-primary-500: #3b82f6;
+  --breakpoint-3xl: 1920px;
+}
+
+
+GitHub Pages Setup
+1. Create .gitignore
+node_modules/
+.DS_Store
+*.log
+
+2. Commit and Push
+git init
+git add .
+git commit -m "Initial commit with Tailwind v4"
+git branch -M main
+git remote add origin https://github.com/yourusername/your-repo-name.git
+git push -u origin main
+
+3. GitHub Actions Workflow (Optional)
+Create .github/workflows/build.yml:
+
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build Tailwind CSS
+        run: npm run build
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+4. Enable GitHub Pages
+
+Go to repository Settings
+Navigate to Pages section
+Select "Deploy from a branch"
+Choose main branch and / (root) folder
+Save
